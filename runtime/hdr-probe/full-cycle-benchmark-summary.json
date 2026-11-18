@@ -1,0 +1,26 @@
+{
+  "adaptive-cpu": {
+    "analysis_ms": 3.36781,
+    "analysis_cpu_ms": 3.321,
+    "cycle_ms": 199.13378100000045,
+    "cycle_cpu_ms": 27.183418000000135
+  },
+  "adaptive-npu": {
+    "analysis_ms": 4.25141,
+    "analysis_cpu_ms": 2.815,
+    "cycle_ms": 199.36458600022888,
+    "cycle_cpu_ms": 25.134738999999932
+  },
+  "hdr-cpu": {
+    "analysis_ms": 14.8495,
+    "analysis_cpu_ms": 14.499,
+    "cycle_ms": 216.3879170002474,
+    "cycle_cpu_ms": 43.022926999999825
+  },
+  "hdr-npu": {
+    "analysis_ms": 31.7143,
+    "analysis_cpu_ms": 5.65,
+    "cycle_ms": 232.582346000072,
+    "cycle_cpu_ms": 34.219708999999874
+  }
+}

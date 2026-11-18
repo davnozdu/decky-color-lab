@@ -1,0 +1,11 @@
+{
+  "source_commit": "b491f6df64a588864739a157db271e5c848e1805",
+  "weights": [
+    1.5730143785476685,
+    0.053130343556404114,
+    -0.24373239278793335
+  ],
+  "classifier_parameters": 269635,
+  "instance_norm_rewrite_max_abs": 6.51925802230835e-07,
+  "scope": "three LUT coefficients from one 256x256 game screenshot, not HDR synthesis or live filtering"
+}

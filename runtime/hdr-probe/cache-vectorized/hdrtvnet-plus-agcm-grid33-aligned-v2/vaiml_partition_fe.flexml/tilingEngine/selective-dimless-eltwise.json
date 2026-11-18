@@ -1,0 +1,5 @@
+{
+  "/net/classifier/model/model.10/LeakyRelu": {"availableL2Bytes": 524288, "decision": "not-selected", "effectiveReshapeMode": 0, "requiredL2Bytes": 2048},
+  "/net/classifier/model/model.2/LeakyRelu": {"availableL2Bytes": 524288, "decision": "not-selected", "effectiveReshapeMode": 0, "requiredL2Bytes": 512},
+  "/net/classifier/model/model.6/LeakyRelu": {"availableL2Bytes": 524288, "decision": "not-selected", "effectiveReshapeMode": 0, "requiredL2Bytes": 1024}
+}

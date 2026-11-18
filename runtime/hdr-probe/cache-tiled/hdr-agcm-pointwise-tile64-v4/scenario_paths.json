@@ -1,0 +1,9 @@
+{
+  "scenarios": [
+    {
+      "relative_path": ".",
+      "scenario_id": -1
+    }
+  ],
+  "schema_version": 1
+}

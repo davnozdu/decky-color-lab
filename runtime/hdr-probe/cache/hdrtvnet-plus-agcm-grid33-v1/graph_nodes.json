@@ -1,0 +1,1558 @@
+[
+    {
+        "node_id:": 0,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 3 256 256 ",
+                "input_name:": "image"
+            },
+            {
+                "input_dimension:": "16 3 1 1 ",
+                "input_name:": "net.classifier.model.0.weight"
+            },
+            {
+                "input_dimension:": "16 ",
+                "input_name:": "net.classifier.model.0.bias"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.0/Conv",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 256 256 ",
+                "output_name:": "/net/classifier/model/model.0/Conv_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 1,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 256 256 ",
+                "input_name:": "/net/classifier/model/model.0/Conv_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.1/AveragePool",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 128 128 ",
+                "output_name:": "/net/classifier/model/model.1/AveragePool_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 2,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 128 128 ",
+                "input_name:": "/net/classifier/model/model.1/AveragePool_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.2/LeakyRelu",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 128 128 ",
+                "output_name:": "/net/classifier/model/model.2/LeakyRelu_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 3,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 128 128 ",
+                "input_name:": "/net/classifier/model/model.2/LeakyRelu_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.3/ReduceMean",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 1 1 ",
+                "output_name:": "/net/classifier/model/model.3/ReduceMean_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 4,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 128 128 ",
+                "input_name:": "/net/classifier/model/model.2/LeakyRelu_output_0"
+            },
+            {
+                "input_dimension:": "1 16 1 1 ",
+                "input_name:": "/net/classifier/model/model.3/ReduceMean_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.3/Sub",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 128 128 ",
+                "output_name:": "/net/classifier/model/model.3/Sub_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 5,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 128 128 ",
+                "input_name:": "/net/classifier/model/model.3/Sub_output_0"
+            },
+            {
+                "input_dimension:": "1 16 128 128 ",
+                "input_name:": "/net/classifier/model/model.3/Sub_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.3/Mul",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 128 128 ",
+                "output_name:": "/net/classifier/model/model.3/Mul_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 6,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 128 128 ",
+                "input_name:": "/net/classifier/model/model.3/Mul_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.3/ReduceMean_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 1 1 ",
+                "output_name:": "/net/classifier/model/model.3/ReduceMean_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 7,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 1 1 ",
+                "input_name:": "/net/classifier/model/model.3/ReduceMean_1_output_0"
+            },
+            {
+                "input_dimension:": "",
+                "input_name:": "/net/classifier/model/model.11/Constant_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.3/Add",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 1 1 ",
+                "output_name:": "/net/classifier/model/model.3/Add_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 8,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 1 1 ",
+                "input_name:": "/net/classifier/model/model.3/Add_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.3/Sqrt",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 1 1 ",
+                "output_name:": "/net/classifier/model/model.3/Sqrt_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 9,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 128 128 ",
+                "input_name:": "/net/classifier/model/model.3/Sub_output_0"
+            },
+            {
+                "input_dimension:": "1 16 1 1 ",
+                "input_name:": "/net/classifier/model/model.3/Sqrt_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.3/Div",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 128 128 ",
+                "output_name:": "/net/classifier/model/model.3/Div_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 10,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 128 128 ",
+                "input_name:": "/net/classifier/model/model.3/Div_output_0"
+            },
+            {
+                "input_dimension:": "1 16 1 1 ",
+                "input_name:": "onnx::Mul_183"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.3/Mul_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 128 128 ",
+                "output_name:": "/net/classifier/model/model.3/Mul_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 11,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 128 128 ",
+                "input_name:": "/net/classifier/model/model.3/Mul_1_output_0"
+            },
+            {
+                "input_dimension:": "1 16 1 1 ",
+                "input_name:": "onnx::Add_186"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.3/Add_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 16 128 128 ",
+                "output_name:": "/net/classifier/model/model.3/Add_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 12,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 16 128 128 ",
+                "input_name:": "/net/classifier/model/model.3/Add_1_output_0"
+            },
+            {
+                "input_dimension:": "32 16 1 1 ",
+                "input_name:": "net.classifier.model.4.weight"
+            },
+            {
+                "input_dimension:": "32 ",
+                "input_name:": "net.classifier.model.4.bias"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.4/Conv",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 128 128 ",
+                "output_name:": "/net/classifier/model/model.4/Conv_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 13,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 128 128 ",
+                "input_name:": "/net/classifier/model/model.4/Conv_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.5/AveragePool",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 64 64 ",
+                "output_name:": "/net/classifier/model/model.5/AveragePool_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 14,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 64 64 ",
+                "input_name:": "/net/classifier/model/model.5/AveragePool_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.6/LeakyRelu",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 64 64 ",
+                "output_name:": "/net/classifier/model/model.6/LeakyRelu_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 15,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 64 64 ",
+                "input_name:": "/net/classifier/model/model.6/LeakyRelu_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.7/ReduceMean",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 1 1 ",
+                "output_name:": "/net/classifier/model/model.7/ReduceMean_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 16,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 64 64 ",
+                "input_name:": "/net/classifier/model/model.6/LeakyRelu_output_0"
+            },
+            {
+                "input_dimension:": "1 32 1 1 ",
+                "input_name:": "/net/classifier/model/model.7/ReduceMean_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.7/Sub",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 64 64 ",
+                "output_name:": "/net/classifier/model/model.7/Sub_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 17,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 64 64 ",
+                "input_name:": "/net/classifier/model/model.7/Sub_output_0"
+            },
+            {
+                "input_dimension:": "1 32 64 64 ",
+                "input_name:": "/net/classifier/model/model.7/Sub_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.7/Mul",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 64 64 ",
+                "output_name:": "/net/classifier/model/model.7/Mul_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 18,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 64 64 ",
+                "input_name:": "/net/classifier/model/model.7/Mul_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.7/ReduceMean_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 1 1 ",
+                "output_name:": "/net/classifier/model/model.7/ReduceMean_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 19,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 1 1 ",
+                "input_name:": "/net/classifier/model/model.7/ReduceMean_1_output_0"
+            },
+            {
+                "input_dimension:": "",
+                "input_name:": "/net/classifier/model/model.11/Constant_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.7/Add",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 1 1 ",
+                "output_name:": "/net/classifier/model/model.7/Add_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 20,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 1 1 ",
+                "input_name:": "/net/classifier/model/model.7/Add_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.7/Sqrt",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 1 1 ",
+                "output_name:": "/net/classifier/model/model.7/Sqrt_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 21,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 64 64 ",
+                "input_name:": "/net/classifier/model/model.7/Sub_output_0"
+            },
+            {
+                "input_dimension:": "1 32 1 1 ",
+                "input_name:": "/net/classifier/model/model.7/Sqrt_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.7/Div",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 64 64 ",
+                "output_name:": "/net/classifier/model/model.7/Div_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 22,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 64 64 ",
+                "input_name:": "/net/classifier/model/model.7/Div_output_0"
+            },
+            {
+                "input_dimension:": "1 32 1 1 ",
+                "input_name:": "onnx::Mul_189"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.7/Mul_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 64 64 ",
+                "output_name:": "/net/classifier/model/model.7/Mul_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 23,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 64 64 ",
+                "input_name:": "/net/classifier/model/model.7/Mul_1_output_0"
+            },
+            {
+                "input_dimension:": "1 32 1 1 ",
+                "input_name:": "onnx::Add_192"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.7/Add_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 32 64 64 ",
+                "output_name:": "/net/classifier/model/model.7/Add_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 24,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 32 64 64 ",
+                "input_name:": "/net/classifier/model/model.7/Add_1_output_0"
+            },
+            {
+                "input_dimension:": "64 32 1 1 ",
+                "input_name:": "net.classifier.model.8.weight"
+            },
+            {
+                "input_dimension:": "64 ",
+                "input_name:": "net.classifier.model.8.bias"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.8/Conv",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 64 64 ",
+                "output_name:": "/net/classifier/model/model.8/Conv_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 25,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 64 64 ",
+                "input_name:": "/net/classifier/model/model.8/Conv_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.9/AveragePool",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 32 32 ",
+                "output_name:": "/net/classifier/model/model.9/AveragePool_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 26,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 32 32 ",
+                "input_name:": "/net/classifier/model/model.9/AveragePool_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.10/LeakyRelu",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 32 32 ",
+                "output_name:": "/net/classifier/model/model.10/LeakyRelu_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 27,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 32 32 ",
+                "input_name:": "/net/classifier/model/model.10/LeakyRelu_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.11/ReduceMean",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 1 1 ",
+                "output_name:": "/net/classifier/model/model.11/ReduceMean_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 28,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 32 32 ",
+                "input_name:": "/net/classifier/model/model.10/LeakyRelu_output_0"
+            },
+            {
+                "input_dimension:": "1 64 1 1 ",
+                "input_name:": "/net/classifier/model/model.11/ReduceMean_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.11/Sub",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 32 32 ",
+                "output_name:": "/net/classifier/model/model.11/Sub_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 29,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 32 32 ",
+                "input_name:": "/net/classifier/model/model.11/Sub_output_0"
+            },
+            {
+                "input_dimension:": "1 64 32 32 ",
+                "input_name:": "/net/classifier/model/model.11/Sub_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.11/Mul",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 32 32 ",
+                "output_name:": "/net/classifier/model/model.11/Mul_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 30,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 32 32 ",
+                "input_name:": "/net/classifier/model/model.11/Mul_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.11/ReduceMean_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 1 1 ",
+                "output_name:": "/net/classifier/model/model.11/ReduceMean_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 31,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 1 1 ",
+                "input_name:": "/net/classifier/model/model.11/ReduceMean_1_output_0"
+            },
+            {
+                "input_dimension:": "",
+                "input_name:": "/net/classifier/model/model.11/Constant_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.11/Add",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 1 1 ",
+                "output_name:": "/net/classifier/model/model.11/Add_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 32,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 1 1 ",
+                "input_name:": "/net/classifier/model/model.11/Add_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.11/Sqrt",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 1 1 ",
+                "output_name:": "/net/classifier/model/model.11/Sqrt_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 33,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 32 32 ",
+                "input_name:": "/net/classifier/model/model.11/Sub_output_0"
+            },
+            {
+                "input_dimension:": "1 64 1 1 ",
+                "input_name:": "/net/classifier/model/model.11/Sqrt_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.11/Div",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 32 32 ",
+                "output_name:": "/net/classifier/model/model.11/Div_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 34,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 32 32 ",
+                "input_name:": "/net/classifier/model/model.11/Div_output_0"
+            },
+            {
+                "input_dimension:": "1 64 1 1 ",
+                "input_name:": "onnx::Mul_195"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.11/Mul_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 32 32 ",
+                "output_name:": "/net/classifier/model/model.11/Mul_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 35,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 32 32 ",
+                "input_name:": "/net/classifier/model/model.11/Mul_1_output_0"
+            },
+            {
+                "input_dimension:": "1 64 1 1 ",
+                "input_name:": "onnx::Add_198"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.11/Add_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 32 32 ",
+                "output_name:": "/net/classifier/model/model.11/Add_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 36,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 32 32 ",
+                "input_name:": "/net/classifier/model/model.11/Add_1_output_0"
+            },
+            {
+                "input_dimension:": "128 64 1 1 ",
+                "input_name:": "net.classifier.model.12.weight"
+            },
+            {
+                "input_dimension:": "128 ",
+                "input_name:": "net.classifier.model.12.bias"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.12/Conv",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 32 32 ",
+                "output_name:": "/net/classifier/model/model.12/Conv_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 37,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 32 32 ",
+                "input_name:": "/net/classifier/model/model.12/Conv_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.13/AveragePool",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 16 16 ",
+                "output_name:": "/net/classifier/model/model.13/AveragePool_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 38,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 16 16 ",
+                "input_name:": "/net/classifier/model/model.13/AveragePool_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.14/LeakyRelu",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 16 16 ",
+                "output_name:": "/net/classifier/model/model.14/LeakyRelu_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 39,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 16 16 ",
+                "input_name:": "/net/classifier/model/model.14/LeakyRelu_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.15/ReduceMean",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 1 1 ",
+                "output_name:": "/net/classifier/model/model.15/ReduceMean_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 40,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 16 16 ",
+                "input_name:": "/net/classifier/model/model.14/LeakyRelu_output_0"
+            },
+            {
+                "input_dimension:": "1 128 1 1 ",
+                "input_name:": "/net/classifier/model/model.15/ReduceMean_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.15/Sub",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 16 16 ",
+                "output_name:": "/net/classifier/model/model.15/Sub_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 41,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 16 16 ",
+                "input_name:": "/net/classifier/model/model.15/Sub_output_0"
+            },
+            {
+                "input_dimension:": "1 128 16 16 ",
+                "input_name:": "/net/classifier/model/model.15/Sub_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.15/Mul",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 16 16 ",
+                "output_name:": "/net/classifier/model/model.15/Mul_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 42,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 16 16 ",
+                "input_name:": "/net/classifier/model/model.15/Mul_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.15/ReduceMean_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 1 1 ",
+                "output_name:": "/net/classifier/model/model.15/ReduceMean_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 43,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 1 1 ",
+                "input_name:": "/net/classifier/model/model.15/ReduceMean_1_output_0"
+            },
+            {
+                "input_dimension:": "",
+                "input_name:": "/net/classifier/model/model.11/Constant_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.15/Add",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 1 1 ",
+                "output_name:": "/net/classifier/model/model.15/Add_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 44,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 1 1 ",
+                "input_name:": "/net/classifier/model/model.15/Add_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.15/Sqrt",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 1 1 ",
+                "output_name:": "/net/classifier/model/model.15/Sqrt_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 45,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 16 16 ",
+                "input_name:": "/net/classifier/model/model.15/Sub_output_0"
+            },
+            {
+                "input_dimension:": "1 128 1 1 ",
+                "input_name:": "/net/classifier/model/model.15/Sqrt_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.15/Div",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 16 16 ",
+                "output_name:": "/net/classifier/model/model.15/Div_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 46,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 16 16 ",
+                "input_name:": "/net/classifier/model/model.15/Div_output_0"
+            },
+            {
+                "input_dimension:": "1 128 1 1 ",
+                "input_name:": "onnx::Mul_201"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.15/Mul_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 16 16 ",
+                "output_name:": "/net/classifier/model/model.15/Mul_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 47,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 16 16 ",
+                "input_name:": "/net/classifier/model/model.15/Mul_1_output_0"
+            },
+            {
+                "input_dimension:": "1 128 1 1 ",
+                "input_name:": "onnx::Add_204"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.15/Add_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 16 16 ",
+                "output_name:": "/net/classifier/model/model.15/Add_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 48,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 16 16 ",
+                "input_name:": "/net/classifier/model/model.15/Add_1_output_0"
+            },
+            {
+                "input_dimension:": "128 128 1 1 ",
+                "input_name:": "net.classifier.model.16.weight"
+            },
+            {
+                "input_dimension:": "128 ",
+                "input_name:": "net.classifier.model.16.bias"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.16/Conv",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 16 16 ",
+                "output_name:": "/net/classifier/model/model.16/Conv_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 49,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 16 16 ",
+                "input_name:": "/net/classifier/model/model.16/Conv_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.17/AveragePool",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 8 8 ",
+                "output_name:": "/net/classifier/model/model.17/AveragePool_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 50,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 8 8 ",
+                "input_name:": "/net/classifier/model/model.17/AveragePool_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.18/LeakyRelu",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 128 8 8 ",
+                "output_name:": "/net/classifier/model/model.18/LeakyRelu_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 51,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 128 8 8 ",
+                "input_name:": "/net/classifier/model/model.18/LeakyRelu_output_0"
+            },
+            {
+                "input_dimension:": "6 128 1 1 ",
+                "input_name:": "net.classifier.model.20.weight"
+            },
+            {
+                "input_dimension:": "6 ",
+                "input_name:": "net.classifier.model.20.bias"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.20/Conv",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 6 8 8 ",
+                "output_name:": "/net/classifier/model/model.20/Conv_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 52,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 6 8 8 ",
+                "input_name:": "/net/classifier/model/model.20/Conv_output_0"
+            }
+        ],
+        "node_name:": "/net/classifier/model/model.21/GlobalAveragePool",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 6 1 1 ",
+                "output_name:": "/net/classifier/model/model.21/GlobalAveragePool_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 53,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 6 1 1 ",
+                "input_name:": "/net/classifier/model/model.21/GlobalAveragePool_output_0"
+            },
+            {
+                "input_dimension:": "1 ",
+                "input_name:": "/net/Constant_1_output_0"
+            }
+        ],
+        "node_name:": "/net/Squeeze",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 6 1 ",
+                "output_name:": "/net/Squeeze_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 54,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 6 1 ",
+                "input_name:": "/net/Squeeze_output_0"
+            },
+            {
+                "input_dimension:": "1 ",
+                "input_name:": "/net/Constant_1_output_0"
+            }
+        ],
+        "node_name:": "/net/Squeeze_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 6 ",
+                "output_name:": "/net/Squeeze_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 55,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 6 ",
+                "input_name:": "/net/Squeeze_1_output_0"
+            },
+            {
+                "input_dimension:": "64 6 ",
+                "input_name:": "net.cond_scale_first.weight"
+            },
+            {
+                "input_dimension:": "64 ",
+                "input_name:": "net.cond_scale_first.bias"
+            }
+        ],
+        "node_name:": "/net/cond_scale_first/Gemm",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 ",
+                "output_name:": "/net/cond_scale_first/Gemm_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 56,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 6 ",
+                "input_name:": "/net/Squeeze_1_output_0"
+            },
+            {
+                "input_dimension:": "64 6 ",
+                "input_name:": "net.cond_shift_first.weight"
+            },
+            {
+                "input_dimension:": "64 ",
+                "input_name:": "net.cond_shift_first.bias"
+            }
+        ],
+        "node_name:": "/net/cond_shift_first/Gemm",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 ",
+                "output_name:": "/net/cond_shift_first/Gemm_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 57,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 6 ",
+                "input_name:": "/net/Squeeze_1_output_0"
+            },
+            {
+                "input_dimension:": "64 6 ",
+                "input_name:": "net.cond_scale_HR.weight"
+            },
+            {
+                "input_dimension:": "64 ",
+                "input_name:": "net.cond_scale_HR.bias"
+            }
+        ],
+        "node_name:": "/net/cond_scale_HR/Gemm",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 ",
+                "output_name:": "/net/cond_scale_HR/Gemm_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 58,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 6 ",
+                "input_name:": "/net/Squeeze_1_output_0"
+            },
+            {
+                "input_dimension:": "64 6 ",
+                "input_name:": "net.cond_shift_HR.weight"
+            },
+            {
+                "input_dimension:": "64 ",
+                "input_name:": "net.cond_shift_HR.bias"
+            }
+        ],
+        "node_name:": "/net/cond_shift_HR/Gemm",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 ",
+                "output_name:": "/net/cond_shift_HR/Gemm_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 59,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 6 ",
+                "input_name:": "/net/Squeeze_1_output_0"
+            },
+            {
+                "input_dimension:": "3 6 ",
+                "input_name:": "net.cond_scale_last.weight"
+            },
+            {
+                "input_dimension:": "3 ",
+                "input_name:": "net.cond_scale_last.bias"
+            }
+        ],
+        "node_name:": "/net/cond_scale_last/Gemm",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 3 ",
+                "output_name:": "/net/cond_scale_last/Gemm_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 60,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 6 ",
+                "input_name:": "/net/Squeeze_1_output_0"
+            },
+            {
+                "input_dimension:": "3 6 ",
+                "input_name:": "net.cond_shift_last.weight"
+            },
+            {
+                "input_dimension:": "3 ",
+                "input_name:": "net.cond_shift_last.bias"
+            }
+        ],
+        "node_name:": "/net/cond_shift_last/Gemm",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 3 ",
+                "output_name:": "/net/cond_shift_last/Gemm_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 61,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 ",
+                "input_name:": "/net/cond_scale_first/Gemm_output_0"
+            },
+            {
+                "input_dimension:": "4 ",
+                "input_name:": "/net/Constant_2_output_0"
+            }
+        ],
+        "node_name:": "/net/Reshape",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 1 1 ",
+                "output_name:": "/net/Reshape_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 62,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/conv_first/Conv_output_0"
+            },
+            {
+                "input_dimension:": "1 64 1 1 ",
+                "input_name:": "/net/Reshape_output_0"
+            }
+        ],
+        "node_name:": "/net/Mul",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 33 1089 ",
+                "output_name:": "/net/Mul_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 63,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 ",
+                "input_name:": "/net/cond_shift_first/Gemm_output_0"
+            },
+            {
+                "input_dimension:": "4 ",
+                "input_name:": "/net/Constant_2_output_0"
+            }
+        ],
+        "node_name:": "/net/Reshape_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 1 1 ",
+                "output_name:": "/net/Reshape_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 64,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/Mul_output_0"
+            },
+            {
+                "input_dimension:": "1 64 1 1 ",
+                "input_name:": "/net/Reshape_1_output_0"
+            }
+        ],
+        "node_name:": "/net/Add",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 33 1089 ",
+                "output_name:": "/net/Add_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 65,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/Add_output_0"
+            },
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/conv_first/Conv_output_0"
+            }
+        ],
+        "node_name:": "/net/Add_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 33 1089 ",
+                "output_name:": "/net/Add_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 66,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/Add_1_output_0"
+            }
+        ],
+        "node_name:": "/net/act/Relu",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 33 1089 ",
+                "output_name:": "/net/act/Relu_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 67,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/act/Relu_output_0"
+            },
+            {
+                "input_dimension:": "64 64 1 1 ",
+                "input_name:": "net.HRconv.weight"
+            },
+            {
+                "input_dimension:": "64 ",
+                "input_name:": "net.HRconv.bias"
+            }
+        ],
+        "node_name:": "/net/HRconv/Conv",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 33 1089 ",
+                "output_name:": "/net/HRconv/Conv_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 68,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 ",
+                "input_name:": "/net/cond_scale_HR/Gemm_output_0"
+            },
+            {
+                "input_dimension:": "4 ",
+                "input_name:": "/net/Constant_2_output_0"
+            }
+        ],
+        "node_name:": "/net/Reshape_2",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 1 1 ",
+                "output_name:": "/net/Reshape_2_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 69,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/HRconv/Conv_output_0"
+            },
+            {
+                "input_dimension:": "1 64 1 1 ",
+                "input_name:": "/net/Reshape_2_output_0"
+            }
+        ],
+        "node_name:": "/net/Mul_1",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 33 1089 ",
+                "output_name:": "/net/Mul_1_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 70,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 ",
+                "input_name:": "/net/cond_shift_HR/Gemm_output_0"
+            },
+            {
+                "input_dimension:": "4 ",
+                "input_name:": "/net/Constant_2_output_0"
+            }
+        ],
+        "node_name:": "/net/Reshape_3",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 1 1 ",
+                "output_name:": "/net/Reshape_3_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 71,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/Mul_1_output_0"
+            },
+            {
+                "input_dimension:": "1 64 1 1 ",
+                "input_name:": "/net/Reshape_3_output_0"
+            }
+        ],
+        "node_name:": "/net/Add_2",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 33 1089 ",
+                "output_name:": "/net/Add_2_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 72,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/Add_2_output_0"
+            },
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/HRconv/Conv_output_0"
+            }
+        ],
+        "node_name:": "/net/Add_3",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 33 1089 ",
+                "output_name:": "/net/Add_3_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 73,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/Add_3_output_0"
+            }
+        ],
+        "node_name:": "/net/act_1/Relu",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 64 33 1089 ",
+                "output_name:": "/net/act_1/Relu_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 74,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 64 33 1089 ",
+                "input_name:": "/net/act_1/Relu_output_0"
+            },
+            {
+                "input_dimension:": "3 64 1 1 ",
+                "input_name:": "net.conv_last.weight"
+            },
+            {
+                "input_dimension:": "3 ",
+                "input_name:": "net.conv_last.bias"
+            }
+        ],
+        "node_name:": "/net/conv_last/Conv",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 3 33 1089 ",
+                "output_name:": "/net/conv_last/Conv_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 75,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 3 ",
+                "input_name:": "/net/cond_scale_last/Gemm_output_0"
+            },
+            {
+                "input_dimension:": "4 ",
+                "input_name:": "/net/Constant_6_output_0"
+            }
+        ],
+        "node_name:": "/net/Reshape_4",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 3 1 1 ",
+                "output_name:": "/net/Reshape_4_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 76,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 3 33 1089 ",
+                "input_name:": "/net/conv_last/Conv_output_0"
+            },
+            {
+                "input_dimension:": "1 3 1 1 ",
+                "input_name:": "/net/Reshape_4_output_0"
+            }
+        ],
+        "node_name:": "/net/Mul_2",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 3 33 1089 ",
+                "output_name:": "/net/Mul_2_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 77,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 3 ",
+                "input_name:": "/net/cond_shift_last/Gemm_output_0"
+            },
+            {
+                "input_dimension:": "4 ",
+                "input_name:": "/net/Constant_6_output_0"
+            }
+        ],
+        "node_name:": "/net/Reshape_5",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 3 1 1 ",
+                "output_name:": "/net/Reshape_5_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 78,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 3 33 1089 ",
+                "input_name:": "/net/Mul_2_output_0"
+            },
+            {
+                "input_dimension:": "1 3 1 1 ",
+                "input_name:": "/net/Reshape_5_output_0"
+            }
+        ],
+        "node_name:": "/net/Add_4",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 3 33 1089 ",
+                "output_name:": "/net/Add_4_output_0"
+            }
+        ]
+    },
+    {
+        "node_id:": 79,
+        "node_inputs:": [
+            {
+                "input_dimension:": "1 3 33 1089 ",
+                "input_name:": "/net/Add_4_output_0"
+            },
+            {
+                "input_dimension:": "1 3 33 1089 ",
+                "input_name:": "/net/conv_last/Conv_output_0"
+            }
+        ],
+        "node_name:": "/net/Add_5",
+        "node_outputs:": [
+            {
+                "output_dimension:": "1 3 33 1089 ",
+                "output_name:": "hdr_lut"
+            }
+        ]
+    }
+]

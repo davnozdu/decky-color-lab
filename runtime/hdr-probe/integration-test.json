@@ -1,0 +1,90 @@
+[
+  {
+    "model": "adaptive",
+    "engine": "cpu",
+    "weights": [
+      1.46724,
+      0.683844,
+      -0.822526
+    ],
+    "model_ms": 4.04412,
+    "model_cpu_ms": 3.879,
+    "capture_ms": 151.71019199988223,
+    "elapsed_ms": 168.36620699996274
+  },
+  {
+    "model": "adaptive",
+    "engine": "cpu",
+    "weights": [
+      1.46724,
+      0.683844,
+      -0.822526
+    ],
+    "model_ms": 3.41564,
+    "model_cpu_ms": 3.339,
+    "capture_ms": 151.3670760000423,
+    "elapsed_ms": 164.57822099982877
+  },
+  {
+    "model": "adaptive",
+    "engine": "npu",
+    "weights": [
+      1.45312,
+      0.675781,
+      -0.832031
+    ],
+    "model_ms": 4.59041,
+    "model_cpu_ms": 3.121,
+    "capture_ms": 151.725069999884,
+    "elapsed_ms": 168.18262000015238
+  },
+  {
+    "model": "adaptive",
+    "engine": "npu",
+    "weights": [
+      1.45312,
+      0.675781,
+      -0.832031
+    ],
+    "model_ms": 4.62526,
+    "model_cpu_ms": 3.22,
+    "capture_ms": 152.04794900000707,
+    "elapsed_ms": 166.4141699998254
+  },
+  {
+    "model": "hdr",
+    "engine": "cpu",
+    "lut_file": "hdr-current.bin",
+    "model_ms": 15.8459,
+    "model_cpu_ms": 15.242,
+    "capture_ms": 151.66150000004563,
+    "elapsed_ms": 188.23507299975972
+  },
+  {
+    "model": "hdr",
+    "engine": "cpu",
+    "lut_file": "hdr-current.bin",
+    "model_ms": 15.345,
+    "model_cpu_ms": 14.772,
+    "capture_ms": 151.28016200014827,
+    "elapsed_ms": 184.55442999993465
+  },
+  {
+    "model": "hdr",
+    "engine": "npu",
+    "lut_file": "hdr-current.bin",
+    "model_ms": 31.1918,
+    "model_cpu_ms": 5.218,
+    "capture_ms": 151.58143999997264,
+    "elapsed_ms": 202.64245199996367
+  },
+  {
+    "model": "hdr",
+    "engine": "npu",
+    "lut_file": "hdr-current.bin",
+    "model_ms": 30.678,
+    "model_cpu_ms": 5.023,
+    "capture_ms": 151.15256199987925,
+    "elapsed_ms": 199.1055389999019
+  }
+]

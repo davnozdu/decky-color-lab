@@ -1,0 +1,22 @@
+[
+  {
+    "mode": "-",
+    "program": "bin/lut-write-slow",
+    "median_ms": 24.876114999642596
+  },
+  {
+    "mode": "-",
+    "program": "bin/lut-write",
+    "median_ms": 7.672834999993938
+  },
+  {
+    "mode": "/home/davnozdu/AsusNPU/decky-color-lab-test/assets/hdr-default.bin",
+    "program": "bin/lut-write-slow",
+    "median_ms": 24.173329999939597
+  },
+  {
+    "mode": "/home/davnozdu/AsusNPU/decky-color-lab-test/assets/hdr-default.bin",
+    "program": "bin/lut-write",
+    "median_ms": 6.912182000178291
+  }
+]

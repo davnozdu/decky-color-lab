@@ -1,0 +1,16 @@
+{
+  "coefficients": [
+    1.5703125,
+    0.0341796875,
+    -0.244140625
+  ],
+  "cpu_reference": [
+    1.5730143785476685,
+    0.053130343556404114,
+    -0.24373239278793335
+  ],
+  "max_coefficient_error": 0.018950656056404114,
+  "strength": 0.25,
+  "lut_size": 33,
+  "scope": "offline SDR tone/color preview; not applied to game, not HDR"
+}

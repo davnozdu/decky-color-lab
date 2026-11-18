@@ -1,0 +1,14 @@
+{
+  "parameters": 35251,
+  "shape": [
+    1,
+    3,
+    35937
+  ],
+  "range": [
+    -0.00937756896018982,
+    0.8220579028129578
+  ],
+  "norm_rewrite_error": 2.384185791015625e-07,
+  "scope": "HDRTVNet++ AGCM global stage only, PQ BT.2020 output; fixed 256x256 condition; 33^3 LUT approximates pointwise network between grid points"
+}

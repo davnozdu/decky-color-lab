@@ -1,0 +1,19 @@
+{
+  "variant": "tiled",
+  "cpu_inference_ms": 17.7069,
+  "cpu_process_ms": 17.3206,
+  "npu_inference_ms": 31.7397,
+  "npu_process_ms": 5.91567,
+  "pq_mae": 0.0030858423560857773,
+  "pq_p99": 0.01070246659219265,
+  "pq_max": 0.02465033531188965,
+  "sdr_mae": 0.00850699096918106,
+  "sdr_p99": 0.05811788886785507,
+  "sdr_max": 0.2965236008167267,
+  "providers": {
+    "('CPUExecutionProvider', 'Gemm')": 594,
+    "('CPUExecutionProvider', 'Unsqueeze')": 1188,
+    "('CPUExecutionProvider', 'Add')": 297,
+    "('VitisAIExecutionProvider', 'vitis_ai_ep_1')": 297
+  }
+}

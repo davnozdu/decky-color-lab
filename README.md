@@ -17,3 +17,10 @@ Runtime color LUTs, captured data and worker logs live in /run/user/1000/decky-c
 Native dependencies: Wayland (legacy helper), PipeWire and X11. Build frontend with npm run build. The systemd override /etc/systemd/system/plugin_loader.service.d/20-npu-memory.conf raises LimitMEMLOCK to 512M for NPU buffers; it is a ceiling, not a reservation. Plugin stays unprivileged. Helpers run at nice 10. Disable clears only the Gamma22 look. The CLI accepts one value argument: gamescopectl set_look PATH. Do not add a separate g22 argument. Visible output was verified by a user-observed green diagnostic. Old static LUT performance comparisons were invalid and must be repeated. Manual reset within Gamescope: gamescopectl set_look /dev/null.
 
 Code/template BSD-3-Clause (LICENSE); adaptive LUT weights Apache-2.0 (assets/LICENSE-Image-Adaptive-3DLUT); HDRTVNet++ AGCM weights MIT (assets/LICENSE-HDRTVNet-plus). Source: HuiZeng/Image-Adaptive-3DLUT and xiaom233/HDRTVNet-plus. This is a device-specific development package, not a general standalone installer.
+
+## Install and restore
+
+The release ZIP installs the plugin only. Analysis additionally needs the models in `runtime/` and
+the AMD Ryzen AI runtime in `~/AsusNPU` — nothing is downloaded automatically. Full procedure,
+including a from-scratch restore after reinstalling the OS: [INSTALL.md](INSTALL.md).
+Check a machine with `scripts/check-runtime.sh`.
