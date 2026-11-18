@@ -1,0 +1,62 @@
+{
+  "built_at_utc": "2026-11-17T07:46:08.464800+00:00",
+  "version": "0.4.1",
+  "lut_writer": {
+    "target": "x86_64-linux-musl",
+    "linkage": "static",
+    "compiler": "ziglang 0.17.1",
+    "source": "backend/lut-write.cpp",
+    "flags": [
+      "-std=c++17",
+      "-O2",
+      "-static",
+      "-s"
+    ],
+    "elf_header_verified": true,
+    "executed_on_linux": false
+  },
+  "checks": {
+    "typecheck": "passed",
+    "frontend_build": "passed",
+    "native_macos_source_audit": "passed, 21 scenes / 63 LUT checks",
+    "hdr_cpu_audit": "passed, 21 scenes"
+  },
+  "preserved_helpers": [
+    "bin/capture-pw",
+    "bin/app-info"
+  ],
+  "sha256": {
+    "LICENSE": "a759dfb248c06c33a8c34582d6f8f4842badead892caa7d4319ff82f549a1269",
+    "README.md": "ee6cf329eece40709d012b7bf14c2e8e942d73d3c5b84cfeb7f3c5949c48d073",
+    "assets/LICENSE-HDRTVNet-plus": "cd82af7adf7fcc761c471813cfb7b2aa54ccb8f6364bddb56ba297ad185a2ea0",
+    "assets/LICENSE-Image-Adaptive-3DLUT": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "assets/basis-luts.bin": "a638dfd8ec468027472891057c400d6ad6f5ad68b06b252305b8adcdc3015b54",
+    "assets/hdr-default.bin": "a4de6fd62bf8b4911e640efc5b09261ae4f8eea28e9fe5038ebc0e7c5e0d257b",
+    "assets/logo.png": "22cf6e0ed5f2ec7cc6af4eddc4b63b62eb912e89abee4abd2822644ef251afc3",
+    "backend/Dockerfile": "acf30d39be2c785b9cba85f626e9878ade748f0156843b17604217be778fbb65",
+    "backend/Makefile": "baff1c929709db78500d58a5a6d71680e96e61193054ce7738e54eebcc6c62d1",
+    "backend/app-info.c": "d7749e25a3a6996895d6e94aada97a37196486f71cd4469955386a143dffba56",
+    "backend/capture-pw.c": "6832573b6c42ae4b84382919480f152af1356d5cb76936a14460d37b75d9341c",
+    "backend/capture-xshm.c": "8a667da0b1f551875416ef0e1a88b18c989a1b273668463f71b2ca02cbf89a2b",
+    "backend/capture.c": "53fb73c45ead289cd04295cca57a28f865be3efb950ffafb418689c67d352e4d",
+    "backend/entrypoint.sh": "f1eeb0f9d3c926339a04efbb3aa6f73175edb2cdf53293e87c13939255ea2068",
+    "backend/gamescope-control.xml": "f3d88f4643a38d39107c63dc5cb9d37ea12a30f0f53a5181935c4ab28bbb95ba",
+    "backend/lut-write.cpp": "8c5ed94efbc313a1fd9a19a3978d2c1b4df28acd00ffe0050345002450bbb72f",
+    "backend/src/main.c": "6b25cd323a1becfb2401488f98b84294ca52de8caa488f755c048e483400117e",
+    "bin/analyzer.py": "4b906bf8c89234148754d39a84c3195512b74843c5d568c743d32c7efe34e8d8",
+    "bin/app-info": "d9371212cee30c2c0e9dfa74ff4337d295beda635f7158e1a082dd737d2b72dc",
+    "bin/capture-pw": "bfe58c1b5be760af9332845909092b47f82ae0fbfb7c1ba88c04ba8d92762a11",
+    "bin/hdr_tonemap.py": "247738264db0e379d8131dc00f7cb21169c4ac8fe9276153f4c0c277eb713c27",
+    "bin/lut-write": "21b4f73358ccb858b95e6c9cb3eec6f83a5f2e39b6683b3245d55936a1c3c23b",
+    "defaults/analysis.json": "b07964030ce2b572bda08428d401a84c65c85ce0d8906bc61b6301abdb18da1f",
+    "defaults/defaults.txt": "07618dbbfd874c7ea6f02a988d74b629a2c94595f1d265bc1bf8acd3abcfe210",
+    "dist/index.js": "ee56b577f41b963dc6c6bd6aa9062a8e74cee23778e82f1e38743afb0832e83a",
+    "dist/index.js.map": "58a80e57762afe93366d4dbd92e3f2cff696c30dbe3505f8714e44e9df22194c",
+    "main.py": "2f509800454edbdae16e5495a06aca8ed6a33c16baa70d39dbe4884f870c8771",
+    "package-lock.json": "c6e88e16b94714d9f4ecb4874afd81028a600c292a8a1795a7d933adfc5ac038",
+    "package.json": "84031b5fee98571a04352e728ec2626817e31e43250531b3e7e58e74c0fb0ae2",
+    "plugin.json": "3fcdd585587a51eef28da63c2b6d46740010c8062eaec60ad0a56ae381f48f5e",
+    "src/index.tsx": "d4b23c0a68c1e4a0544c2505e057e00c906e3492ae5a599b68e425a0e1bf600e",
+    "src/types.d.ts": "316682d394cbe0d08e4645b3079a79bd77db29a074414e1fe045dd92fc2b879a"
+  }
+}

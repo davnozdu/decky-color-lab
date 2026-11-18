@@ -1,0 +1,50 @@
+# Dependencies
+node_modules
+bower_components
+.pnpm-store
+/.yalc
+yalc.lock
+
+# Coverage and tooling output
+lib-cov
+coverage
+*.seed
+*.log
+*.pid
+*.swp
+pids
+logs
+results
+tmp
+out
+out/*
+cli
+cli/*
+backend/out
+
+# Python
+__pycache__/
+*.pyc
+.venv*
+venv/
+
+# Editors / OS
+.idea
+*.iml
+.vscode/settings.json
+.DS_Store
+Thumbs.db
+
+# API keys and secrets
+.env
+
+# Loader-provided shim
+decky_plugin.py
+
+# Build artifacts that are not part of the shipped plugin
+dist/*.js.map
+
+# Local packaging output
+*.zip
+*.tgz
+*.tar.gz

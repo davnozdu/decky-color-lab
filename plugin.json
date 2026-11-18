@@ -1,0 +1,15 @@
+{
+  "name": "Decky Color Lab",
+  "author": "davnozdu",
+  "flags": [],
+  "api_version": 1,
+  "publish": {
+    "tags": [
+      "color",
+      "video",
+      "npu"
+    ],
+    "description": "Adaptive SDR color presets for the active Gamescope display. Experimental.",
+    "image": ""
+  }
+}
