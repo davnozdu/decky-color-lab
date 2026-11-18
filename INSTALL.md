@@ -114,3 +114,22 @@ scripts/check-runtime.sh          # every path the plugin needs, with ok/MISS pe
 
 Then open the panel, press analyse, and confirm the plugin log has no traceback. A wrong engine
 choice surfaces as `last_error` in the panel; the analysis log is at `~/AsusNPU/<work>/native-analysis.log`.
+
+## 5. Restore verified end to end
+
+Performed on the Ally: cloned this repository into `/tmp`, unpacked `runtime-v1`, copied `runtime/`
+over it, recreated the environment by hand exactly as `runtime.sh` does, and ran the probes. Nothing
+from the existing `~/AsusNPU` tree was reused.
+
+```
+hdr-probe-tiled  → HDR_READY; one frame: device=NPU-pointwise+CPU-condition,
+                   inference_ms 14.83, process_cpu_ms 5.10, 431 244-byte LUT written
+color-probe      → COLOR_READY
+```
+
+So a formatted device restored from GitHub alone reaches a working NPU path.
+
+Pitfall when running a probe by hand: export `COLOR_ALLOW_CPU=1` (as `analyzer.py` does). Without it
+the VitisAI session disables CPU fallback and init fails with *"graph nodes that are assigned to the
+default CPU EP, but fallback to CPU EP has been explicitly disabled"*.
+
