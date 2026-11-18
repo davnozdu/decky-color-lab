@@ -72,13 +72,16 @@ can be a symlink to `../onnxruntime/lib`, which `scripts/restore-runtime.sh` cre
 
 Two ways to get them:
 
-* **From the release bundle** (fastest, byte-identical to a machine where NPU is proven):
-  download the `colorlab-runtime-*.tar.zst.part-*` assets, concatenate, verify the sha256, unpack:
+* **From the release bundle** (fastest, byte-identical to a machine where NPU is proven) — asset of
+  [`runtime-v1`](https://github.com/davnozdu/decky-color-lab/releases/tag/runtime-v1):
+  `colorlab-runtime.tar.zst`, 1 545 322 018 bytes, 2 988 769 280 bytes unpacked,
+  sha256 `9abb29d3da5dec247187cd9cef3295c148ca51a4a5c2967a6fa5f74e093490ed`.
 
   ```
-  cat colorlab-runtime-*.tar.zst.part-* > colorlab-runtime.tar.zst
-  sha256sum -c colorlab-runtime.tar.zst.sha256
+  gh release download runtime-v1 -R davnozdu/decky-color-lab -p 'colorlab-runtime*' -D /tmp
+  cd /tmp && sha256sum -c colorlab-runtime.tar.zst.sha256
   tar --zstd -xf colorlab-runtime.tar.zst -C ~/AsusNPU
+  ln -s ../onnxruntime/lib ~/AsusNPU/runtime-1.9/opt/amd/ryzenai/1.9.0/deployment/lib
   ```
 
 * **From AMD**: install Ryzen AI 1.9.0 (needs an AMD account), then rebuild the XRT/venv layout to
