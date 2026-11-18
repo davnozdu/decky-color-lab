@@ -9,6 +9,7 @@ import pwd
 import resource
 import subprocess
 import copy
+import importlib.util
 import re
 import time
 import decky
@@ -37,11 +38,28 @@ class Plugin:
     except (OSError,ValueError):pass
     self.settings.setdefault('app_profiles',{})
     self.weights=self.settings['weights']
+    self.runtime_install=self._runtime_module()
+    self.install_task=None;self.install_progress=None;self.install_error=''
     self.lock=asyncio.Lock();self.analysis_lock=asyncio.Lock();self.analyzer=None
     self.analyzer_model=None;self.last_error='';self.last_analysis=None;self.analysis_ms=None;self.analysis_cpu_ms=None;self.capture_ms=None;self.cycle_ms=None;self.cycle_cpu_ms=None;self.lut_cpu_ms=0;self.waiting=False;self.busy=False
     self.active_display=await asyncio.to_thread(self._display)
     self.active_app=await asyncio.to_thread(self._application)
     self.weights=self._profile()[0].get('weights',self.weights);await self._apply();self.task=asyncio.create_task(self._watch())
+
+ def _runtime_module(self):
+    path=self.root/'bin/runtime_install.py'
+    spec=importlib.util.spec_from_file_location('color_lab_runtime',path)
+    if spec is None or spec.loader is None:raise RuntimeError('Установщик рантайма не найден')
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module
+
+ def _runtime_state(self):
+    try:missing=self.runtime_install.missing(self.home/'AsusNPU')
+    except Exception as error:missing={'system':[],'runtime':[str(error)[:120]],'models':[]}
+    installing=bool(self.install_task and not self.install_task.done())
+    return {'ready':not any(missing.values()),'missing':missing,'installing':installing,
+      'progress':self.install_progress,'error':self.install_error,
+      'models_in_package':(self.root/'runtime').is_dir()}
 
  def _display(self):
     candidates=[]
@@ -183,7 +201,7 @@ class Plugin:
     return {'enabled':p['enabled'],'auto':p['auto'],'preset':p['preset'],'kind':p['kind'],'tracking':p['tracking'],
       'strength':v['strength'],'black':v['black'],'display':self.active_display,'application':self.active_app,'busy':self.busy,'waiting':self.waiting,
       'last_error':self.last_error,'last_analysis':self.last_analysis,'analysis_ms':self.analysis_ms,'analysis_cpu_ms':self.analysis_cpu_ms,'capture_ms':self.capture_ms,'cycle_ms':self.cycle_ms,'cycle_cpu_ms':self.cycle_cpu_ms,
-      'interval':v['interval'],'interval_effective':self._interval(v),'battery_w':battery,'model_id':p['model'],'model':(f'HDRTVNet++ AGCM → SDR · {engine_label}' if p['model']=='hdr' else f'Image-Adaptive-3DLUT · {engine_label}'),'hdr_available':True,'engine':engine,'hdr_npu_available':(self.home/'AsusNPU/hdr-probe/npu-tested.json').exists(),'capture':'PipeWire · без скриншотов'}
+      'runtime':self._runtime_state(),'interval':v['interval'],'interval_effective':self._interval(v),'battery_w':battery,'model_id':p['model'],'model':(f'HDRTVNet++ AGCM → SDR · {engine_label}' if p['model']=='hdr' else f'Image-Adaptive-3DLUT · {engine_label}'),'hdr_available':True,'engine':engine,'hdr_npu_available':(self.home/'AsusNPU/hdr-probe/npu-tested.json').exists(),'capture':'PipeWire · без скриншотов'}
 
  async def configure(self,changes):
     async with self.lock:
@@ -286,6 +304,41 @@ class Plugin:
         if not quiet:
           self.cycle_ms=(time.monotonic()-started)*1000;self.cycle_cpu_ms=(time.process_time()-cpu_started)*1000+worker_cpu+lut_cpu
     return await self.get_state()
+
+ async def install_runtime(self):
+    """Download the AMD runtime bundle and install the bundled models; one button, no terminal."""
+    if self.install_task and not self.install_task.done():return await self.get_state()
+    self.install_error='';self.install_progress={'stage':'start'};self.last_error=''
+    self.install_task=asyncio.create_task(self._install_runtime())
+    return await self.get_state()
+
+ async def _install_runtime(self):
+    script=str(self.root/'bin/runtime_install.py');models=str(self.root/'runtime')
+    try:
+      process=await asyncio.create_subprocess_exec(*self._as_user(['python3',script,'install','--models-from',models]),
+        stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.PIPE)
+      if process.stdout is None or process.stderr is None:raise RuntimeError('Установщик не запустился')
+      async for line in process.stdout:
+        text=line.decode(errors='replace').strip()
+        if not text:continue
+        try:update=json.loads(text)
+        except ValueError:decky.logger.info('Color runtime: %s',text[:200]);continue
+        if update.get('error'):self.install_error=update['error']
+        else:self.install_progress=update
+      errors=await process.stderr.read()
+      await process.wait()
+      if process.returncode and not self.install_error:
+        self.install_error=(errors.decode(errors='replace')[-220:] or 'Установка завершилась с ошибкой')
+      if not self.install_error:
+        await self._stop_analyzer()
+        self.install_progress={'stage':'done'}
+        decky.logger.info('Color runtime installed into %s',self.home/'AsusNPU')
+    except Exception as error:
+      self.install_error=str(error)[:220]
+      decky.logger.error('Color runtime install: %s',error)
+    finally:
+      if self.install_progress and self.install_progress.get('stage') not in ['done']:
+        self.install_progress=None
 
  async def _stop_analyzer(self):
     process=self.analyzer;self.analyzer=None

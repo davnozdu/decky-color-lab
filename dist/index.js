@@ -83,9 +83,25 @@ function FaPalette (props) {
   return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M204.3 5C104.9 24.4 24.8 104.3 5.2 203.4c-37 187 131.7 326.4 258.8 306.7 41.2-6.4 61.4-54.6 42.5-91.7-23.1-45.4 9.9-98.4 60.9-98.4h79.7c35.8 0 64.8-29.6 64.9-65.3C511.5 97.1 368.1-26.9 204.3 5zM96 320c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm32-128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128-64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128 64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"},"child":[]}]})(props);
 }
 
+const mb = (bytes) => Math.round(bytes / 1048576);
 const getState = callable("get_state");
 const configure = callable("configure");
 const analyze = callable("analyze");
+const installRuntime = callable("install_runtime");
+function progressText(progress) {
+    if (!progress)
+        return "Подготовка…";
+    switch (progress.stage) {
+        case "start": return "Подготовка…";
+        case "models": return "Копирую модели…";
+        case "download": return progress.total && progress.done != null ? `Скачано ${mb(progress.done)} из ${mb(progress.total)} МБ · ${Math.min(99, Math.round(progress.done / progress.total * 100))}%` : "Скачивание…";
+        case "extract": return "Распаковка 2,9 ГБ, это несколько минут…";
+        case "link": return "Связываю библиотеки…";
+        case "system": return "Проверяю систему…";
+        case "done": return "Готово";
+        default: return "Установка…";
+    }
+}
 const presets = [{ data: "cinema", label: "Кино" }, { data: "game", label: "Игры" }, { data: "soft", label: "Мягкий" },
     { data: "black", label: "Глубокий чёрный" }, { data: "hdr", label: "Псевдо-HDR · SDR" }];
 function Content() {
@@ -114,6 +130,18 @@ function Content() {
             pending.current = false;
         }
     };
+    const install = async () => {
+        pending.current = true;
+        try {
+            setState(await installRuntime());
+        }
+        catch (error) {
+            notify(error);
+        }
+        finally {
+            pending.current = false;
+        }
+    };
     const slider = (key, value) => {
         setState(s => s ? { ...s, [key]: value } : s);
         pending.current = true;
@@ -131,7 +159,9 @@ function Content() {
                             }
                             finally {
                                 pending.current = false;
-                            } }, children: state.busy ? "Анализ сцены…" : "Проанализировать сейчас" }) }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { style: { fontSize: 12, opacity: .7 }, children: [state.last_analysis ? `Последний анализ: ${new Date(state.last_analysis * 1000).toLocaleTimeString()}` : "Применена подготовленная цветовая таблица", state.analysis_ms != null ? ` · ${state.analysis_ms.toFixed(1)} мс${state.analysis_cpu_ms != null ? ` (CPU: ${state.analysis_cpu_ms.toFixed(1)} мс)` : ""}` : ""] }) }), state.cycle_ms != null && SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { style: { fontSize: 12, opacity: .7 }, children: ["\u041F\u043E\u043B\u043D\u044B\u0439 \u0444\u043E\u043D\u043E\u0432\u044B\u0439 \u0446\u0438\u043A\u043B: ", (state.cycle_ms / 1000).toFixed(2), " \u0441.", state.cycle_cpu_ms != null ? ` CPU плагина ≈ ${state.cycle_cpu_ms.toFixed(1)} мс` : "", ". \u042D\u0442\u043E \u043D\u0435 \u0432\u0440\u0435\u043C\u044F \u043A\u0430\u0434\u0440\u0430."] }) }), state.waiting && SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx("div", { style: { fontSize: 12, opacity: .7 }, children: "\u041E\u0436\u0438\u0434\u0430\u043D\u0438\u0435 \u043D\u043E\u0432\u043E\u0433\u043E \u043A\u0430\u0434\u0440\u0430 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u2026" }) }), state.last_error && SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx("div", { style: { fontSize: 12, color: "#f0b45e" }, children: state.last_error }) })] }), SP_JSX.jsx(DFL.PanelSection, { title: "\u0421\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0435", children: SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { style: { fontSize: 12, opacity: .7 }, children: ["\u041E\u0431\u0435 \u043C\u043E\u0434\u0435\u043B\u0438 \u0432\u044B\u0432\u043E\u0434\u044F\u0442 SDR. HDRTVNet++: \u0433\u043B\u043E\u0431\u0430\u043B\u044C\u043D\u0430\u044F \u043D\u0435\u0439\u0440\u043E\u0441\u0435\u0442\u0435\u0432\u0430\u044F HDR-\u0440\u0435\u043A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0438\u044F \u0441 \u0442\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u043C \u043F\u0440\u0435\u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435\u043C \u0432 SDR; \u0431\u0435\u0437 \u043B\u043E\u043A\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0432\u043E\u0441\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u0438\u044F \u0434\u0435\u0442\u0430\u043B\u0435\u0439. \u0417\u0430\u0445\u0432\u0430\u0442 PipeWire \u0431\u0435\u0437 \u0441\u043A\u0440\u0438\u043D\u0448\u043E\u0442\u043E\u0432. \u041F\u0440\u043E\u0444\u0438\u043B\u044C \u0441\u043E\u0445\u0440\u0430\u043D\u044F\u0435\u0442\u0441\u044F \u0434\u043B\u044F \u0442\u0435\u043A\u0443\u0449\u0435\u0433\u043E \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u044F \u0438 \u044D\u043A\u0440\u0430\u043D\u0430.", state.battery_w != null ? ` Батарея: ${state.battery_w.toFixed(1)} Вт (вся приставка).` : ""] }) }) })] });
+                            } }, children: state.busy ? "Анализ сцены…" : "Проанализировать сейчас" }) }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { style: { fontSize: 12, opacity: .7 }, children: [state.last_analysis ? `Последний анализ: ${new Date(state.last_analysis * 1000).toLocaleTimeString()}` : "Применена подготовленная цветовая таблица", state.analysis_ms != null ? ` · ${state.analysis_ms.toFixed(1)} мс${state.analysis_cpu_ms != null ? ` (CPU: ${state.analysis_cpu_ms.toFixed(1)} мс)` : ""}` : ""] }) }), state.cycle_ms != null && SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { style: { fontSize: 12, opacity: .7 }, children: ["\u041F\u043E\u043B\u043D\u044B\u0439 \u0444\u043E\u043D\u043E\u0432\u044B\u0439 \u0446\u0438\u043A\u043B: ", (state.cycle_ms / 1000).toFixed(2), " \u0441.", state.cycle_cpu_ms != null ? ` CPU плагина ≈ ${state.cycle_cpu_ms.toFixed(1)} мс` : "", ". \u042D\u0442\u043E \u043D\u0435 \u0432\u0440\u0435\u043C\u044F \u043A\u0430\u0434\u0440\u0430."] }) }), state.waiting && SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx("div", { style: { fontSize: 12, opacity: .7 }, children: "\u041E\u0436\u0438\u0434\u0430\u043D\u0438\u0435 \u043D\u043E\u0432\u043E\u0433\u043E \u043A\u0430\u0434\u0440\u0430 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u2026" }) }), state.last_error && SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx("div", { style: { fontSize: 12, color: "#f0b45e" }, children: state.last_error }) })] }), SP_JSX.jsxs(DFL.PanelSection, { title: "\u0420\u0430\u043D\u0442\u0430\u0439\u043C \u0430\u043D\u0430\u043B\u0438\u0437\u0430", children: [state.runtime.ready
+                        ? SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { style: { fontSize: 12, opacity: .7 }, children: ["\u041C\u043E\u0434\u0435\u043B\u0438 \u0438 \u0440\u0430\u043D\u0442\u0430\u0439\u043C \u043D\u0430 \u043C\u0435\u0441\u0442\u0435.", state.hdr_npu_available ? " NPU-флаг снят на этой приставке." : " HDR идёт на CPU."] }) })
+                        : SP_JSX.jsxs(SP_JSX.Fragment, { children: [state.runtime.missing.system.length > 0 && SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx("div", { style: { fontSize: 12, opacity: .8 }, children: "\u0421\u0438\u0441\u0442\u0435\u043C\u043D\u044B\u0435 \u043F\u0430\u043A\u0435\u0442\u044B: sudo pacman -S linux-firmware-amd xrt xrt-plugin-amdxdna" }) }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx("div", { style: { fontSize: 12, opacity: .7 }, children: "\u0411\u0435\u0437 \u0440\u0430\u043D\u0442\u0430\u0439\u043C\u0430 \u0430\u043D\u0430\u043B\u0438\u0437 \u0441\u0446\u0435\u043D\u044B \u043D\u0435 \u0437\u0430\u043F\u0443\u0441\u043A\u0430\u0435\u0442\u0441\u044F. \u041A\u043D\u043E\u043F\u043A\u0430 \u0441\u043A\u0430\u0447\u0430\u0435\u0442 \u043C\u043E\u0434\u0435\u043B\u0438 \u0438 \u0440\u0430\u043D\u0442\u0430\u0439\u043C AMD (1,5 \u0413\u0411) \u0438 \u0440\u0430\u0441\u043F\u0430\u043A\u0443\u0435\u0442 \u0438\u0445 \u0432 ~/AsusNPU." }) }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.ButtonItem, { layout: "below", disabled: state.runtime.installing, onClick: () => void install(), children: state.runtime.installing ? progressText(state.runtime.progress) : "Установить модели и рантайм · 1,5 ГБ" }) })] }), state.runtime.error && SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx("div", { style: { fontSize: 12, color: "#f0b45e" }, children: state.runtime.error }) })] }), SP_JSX.jsx(DFL.PanelSection, { title: "\u0421\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0435", children: SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { style: { fontSize: 12, opacity: .7 }, children: ["\u041E\u0431\u0435 \u043C\u043E\u0434\u0435\u043B\u0438 \u0432\u044B\u0432\u043E\u0434\u044F\u0442 SDR. HDRTVNet++: \u0433\u043B\u043E\u0431\u0430\u043B\u044C\u043D\u0430\u044F \u043D\u0435\u0439\u0440\u043E\u0441\u0435\u0442\u0435\u0432\u0430\u044F HDR-\u0440\u0435\u043A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0438\u044F \u0441 \u0442\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u043C \u043F\u0440\u0435\u043E\u0431\u0440\u0430\u0437\u043E\u0432\u0430\u043D\u0438\u0435\u043C \u0432 SDR; \u0431\u0435\u0437 \u043B\u043E\u043A\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0432\u043E\u0441\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u0438\u044F \u0434\u0435\u0442\u0430\u043B\u0435\u0439. \u0417\u0430\u0445\u0432\u0430\u0442 PipeWire \u0431\u0435\u0437 \u0441\u043A\u0440\u0438\u043D\u0448\u043E\u0442\u043E\u0432. \u041F\u0440\u043E\u0444\u0438\u043B\u044C \u0441\u043E\u0445\u0440\u0430\u043D\u044F\u0435\u0442\u0441\u044F \u0434\u043B\u044F \u0442\u0435\u043A\u0443\u0449\u0435\u0433\u043E \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u044F \u0438 \u044D\u043A\u0440\u0430\u043D\u0430.", state.battery_w != null ? ` Батарея: ${state.battery_w.toFixed(1)} Вт (вся приставка).` : ""] }) }) })] });
 }
 var index = definePlugin(() => ({ name: "Decky Color Lab", titleView: SP_JSX.jsx("div", { className: DFL.staticClasses.Title, children: "Color Lab" }), content: SP_JSX.jsx(Content, {}), icon: SP_JSX.jsx(FaPalette, {}), onDismount() { } }));
 

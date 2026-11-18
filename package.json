@@ -1,6 +1,6 @@
 {
   "name": "decky-color-lab",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Adaptive SDR color looks for Gamescope, with optional CPU+NPU scene analysis",
   "type": "module",
   "scripts": {

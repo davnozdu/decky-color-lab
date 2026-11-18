@@ -9,8 +9,9 @@ Two layers are involved, and only the first one comes from this repository.
    (≈2.7 GB, not in git — see below).
 
 Without layer 2 the plugin installs, the panel opens, presets and the LUT writer work, but
-**analysis does not run at all** — not on NPU and not on CPU. Nothing is downloaded automatically;
-there is no network code in the plugin. Missing pieces show up as `last_error` in the panel.
+**analysis does not run at all** — not on NPU and not on CPU. Nothing downloads by itself; the panel
+says what is missing. Since 0.4.2 the models travel inside the plugin ZIP and one button in the panel
+section «Рантайм анализа» installs the rest (§3).
 
 ## 1. Plugin
 
@@ -41,6 +42,19 @@ sudo pacman -S linux-firmware-amd xrt xrt-plugin-amdxdna
 Checks: `lsmod | grep amdxdna`, `ls /dev/accel/`.
 
 ## 3. User runtime in ~/AsusNPU
+
+### 3.0 One button in the panel (0.4.2+)
+
+Open the plugin panel → section «Рантайм анализа» → **«Установить модели и рантайм · 1,5 ГБ»**.
+The plugin then copies the models shipped in its own `runtime/` folder into `~/AsusNPU`, downloads
+`colorlab-runtime.tar.zst` from the `runtime-v1` release, checks its sha256, unpacks 2.9 GB, links
+`deployment/lib` and clears the analyzer so the next analysis uses the new paths. Progress is shown
+in the same row (percent while downloading, «Распаковка…» while extracting). The archive is deleted
+after unpacking; a re-press after an interruption resumes the download.
+
+Only the system packages of §2 still need root — the button reports them if they are missing.
+
+The manual route below does the same thing from a terminal.
 
 ### 3a. Models, caches, native probes (from git)
 

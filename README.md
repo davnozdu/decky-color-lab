@@ -20,7 +20,12 @@ Code/template BSD-3-Clause (LICENSE); adaptive LUT weights Apache-2.0 (assets/LI
 
 ## Install and restore
 
-The release ZIP installs the plugin only. Analysis additionally needs the models in `runtime/` and
-the AMD Ryzen AI runtime in `~/AsusNPU` — nothing is downloaded automatically. Full procedure,
-including a from-scratch restore after reinstalling the OS: [INSTALL.md](INSTALL.md).
-Check a machine with `scripts/check-runtime.sh`.
+0.4.2 ships the models inside the ZIP and adds a button: the panel section «Рантайм анализа» shows
+whether analysis can run and, if not, installs everything with one press — it copies the bundled
+models into `~/AsusNPU` and downloads the AMD Ryzen AI runtime bundle (1.5 GB, release `runtime-v1`,
+verified against its sha256) and unpacks it. Only the system packages
+(`linux-firmware-amd xrt xrt-plugin-amdxdna`) still need root.
+
+Without the button the same thing is doable by hand; full procedure, including a from-scratch
+restore after reinstalling the OS: [INSTALL.md](INSTALL.md). Check a machine with
+`scripts/check-runtime.sh`.

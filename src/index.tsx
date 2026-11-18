@@ -7,10 +7,28 @@ interface State {
  enabled:boolean;auto:boolean;preset:string;kind:string;tracking:boolean;strength:number;black:number;
  display:{name:string;internal:boolean};application:{name:string;key:string};busy:boolean;waiting:boolean;last_error:string;
  last_analysis:number|null;analysis_ms:number|null;analysis_cpu_ms:number|null;capture_ms:number|null;cycle_ms:number|null;cycle_cpu_ms:number|null;interval:number;interval_effective:number;battery_w:number|null;model:string;model_id:string;capture:string;engine:string;hdr_npu_available:boolean;
+ runtime:RuntimeState;
 }
+interface Progress {stage:string;done?:number;total?:number;}
+interface RuntimeState {ready:boolean;missing:{system:string[];runtime:string[];models:string[]};installing:boolean;progress:Progress|null;error:string;models_in_package:boolean;}
+const mb=(bytes:number)=>Math.round(bytes/1048576);
 const getState=callable<[],State>("get_state");
 const configure=callable<[changes:Record<string,unknown>],State>("configure");
 const analyze=callable<[force:boolean],State>("analyze");
+const installRuntime=callable<[],State>("install_runtime");
+function progressText(progress:Progress|null):string{
+ if(!progress)return "Подготовка…";
+ switch(progress.stage){
+  case "start":return "Подготовка…";
+  case "models":return "Копирую модели…";
+  case "download":return progress.total&&progress.done!=null?`Скачано ${mb(progress.done)} из ${mb(progress.total)} МБ · ${Math.min(99,Math.round(progress.done/progress.total*100))}%`:"Скачивание…";
+  case "extract":return "Распаковка 2,9 ГБ, это несколько минут…";
+  case "link":return "Связываю библиотеки…";
+  case "system":return "Проверяю систему…";
+  case "done":return "Готово";
+  default:return "Установка…";
+ }
+}
 const presets=[{data:"cinema",label:"Кино"},{data:"game",label:"Игры"},{data:"soft",label:"Мягкий"},
  {data:"black",label:"Глубокий чёрный"},{data:"hdr",label:"Псевдо-HDR · SDR"}];
 
@@ -27,6 +45,10 @@ function Content(){
  const update=async(changes:Record<string,unknown>)=>{
   pending.current=true;
   try{setState(await configure(changes));}catch(error){notify(error);}finally{pending.current=false;}
+ };
+ const install=async()=>{
+  pending.current=true;
+  try{setState(await installRuntime());}catch(error){notify(error);}finally{pending.current=false;}
  };
  const slider=(key:"strength"|"black",value:number)=>{
   setState(s=>s?{...s,[key]:value}:s);pending.current=true;
@@ -56,6 +78,16 @@ function Content(){
    {state.cycle_ms!=null&&<PanelSectionRow><div style={{fontSize:12,opacity:.7}}>Полный фоновый цикл: {(state.cycle_ms/1000).toFixed(2)} с.{state.cycle_cpu_ms!=null?` CPU плагина ≈ ${state.cycle_cpu_ms.toFixed(1)} мс`:""}. Это не время кадра.</div></PanelSectionRow>}
    {state.waiting&&<PanelSectionRow><div style={{fontSize:12,opacity:.7}}>Ожидание нового кадра приложения…</div></PanelSectionRow>}
    {state.last_error&&<PanelSectionRow><div style={{fontSize:12,color:"#f0b45e"}}>{state.last_error}</div></PanelSectionRow>}
+  </PanelSection>
+  <PanelSection title="Рантайм анализа">
+   {state.runtime.ready
+    ?<PanelSectionRow><div style={{fontSize:12,opacity:.7}}>Модели и рантайм на месте.{state.hdr_npu_available?" NPU-флаг снят на этой приставке.":" HDR идёт на CPU."}</div></PanelSectionRow>
+    :<>
+      {state.runtime.missing.system.length>0&&<PanelSectionRow><div style={{fontSize:12,opacity:.8}}>Системные пакеты: sudo pacman -S linux-firmware-amd xrt xrt-plugin-amdxdna</div></PanelSectionRow>}
+      <PanelSectionRow><div style={{fontSize:12,opacity:.7}}>Без рантайма анализ сцены не запускается. Кнопка скачает модели и рантайм AMD (1,5 ГБ) и распакует их в ~/AsusNPU.</div></PanelSectionRow>
+      <PanelSectionRow><ButtonItem layout="below" disabled={state.runtime.installing} onClick={()=>void install()}>{state.runtime.installing?progressText(state.runtime.progress):"Установить модели и рантайм · 1,5 ГБ"}</ButtonItem></PanelSectionRow>
+     </>}
+   {state.runtime.error&&<PanelSectionRow><div style={{fontSize:12,color:"#f0b45e"}}>{state.runtime.error}</div></PanelSectionRow>}
   </PanelSection>
   <PanelSection title="Состояние">
    <PanelSectionRow><div style={{fontSize:12,opacity:.7}}>Обе модели выводят SDR. HDRTVNet++: глобальная нейросетевая HDR-реконструкция с тональным преобразованием в SDR; без локального восстановления деталей. Захват PipeWire без скриншотов. Профиль сохраняется для текущего приложения и экрана.{state.battery_w!=null?` Батарея: ${state.battery_w.toFixed(1)} Вт (вся приставка).`:""}</div></PanelSectionRow>
